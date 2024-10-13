@@ -3,19 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MATRIX CALCULATOR</title>
+    <title>Matrix Addition Calculator</title>
     <style>
-
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .hidden { display: none; }
+        .matrix { margin: 10px; display: inline-block; }
     </style>
 </head>
 <body>
-<h1>matrix</h1>
+    <!-- Title of the matrix calculator -->
+    <h1>Matrix Addition Calculator</h1>
+    
+    <!-- Input for specifying the number of rows and columns -->
+    <h3>Enter Size of Square Matrix (NxN):</h3>
+    <input type="number" id="input1" min="2" placeholder="Size"> <!-- Only need one input since it's a square matrix -->
+    <button onclick="createMatrix()">Create Matrices</button>
 
-
-
+    <!-- Container for matrix inputs and result -->
+    <div id="matrix-section" class="hidden">
+        <div id="matrix1" class="matrix"></div> +
+        <div id="matrix2" class="matrix"></div> =
+        <div id="result" class="matrix"></div>
+        <!-- Button for performing matrix addition -->
+        <br>
+        <button onclick="addMatrices()">Add Matrices</button>
+    </div>
 
     <script>
+        let size;
 
+        // Create matrices based on the user-provided size
+        function createMatrix() {
+            size = parseInt(document.getElementById('input1').value); // Get the matrix size
+
+            // Check for valid input
+            if (isNaN(size) || size < 2) {
+                alert('Please enter a valid number (minimum 2).');
+                return;
+            }
+
+            // Clear previous matrices if any
+            document.getElementById('matrix1').innerHTML = '';
+            document.getElementById('matrix2').innerHTML = '';
+            document.getElementById('result').innerHTML = '';
+
+            // Create input fields for both matrices and the result matrix
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    // Create input fields for Matrix 1
+                    document.getElementById('matrix1').innerHTML += `<input type="number" id="m1-${i}-${j}" value="0"> `;
+                    // Create input fields for Matrix 2
+                    document.getElementById('matrix2').innerHTML += `<input type="number" id="m2-${i}-${j}" value="0"> `;
+                    // Create read-only input fields for the Result matrix
+                    document.getElementById('result').innerHTML += `<input type="number" id="r-${i}-${j}" value="0" readonly> `;
+                }
+                // Line breaks to format the matrices correctly
+                document.getElementById('matrix1').innerHTML += '<br>';
+                document.getElementById('matrix2').innerHTML += '<br>';
+                document.getElementById('result').innerHTML += '<br>';
+            }
+
+            // Show the matrix section
+            document.getElementById('matrix-section').classList.remove('hidden');
+        }
+
+        // Function to add the matrices
+        function addMatrices() {
+            // Traverse through all elements of the matrices and perform addition
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    // Get values from Matrix 1 and Matrix 2
+                    let matrix1Value = parseInt(document.getElementById(`m1-${i}-${j}`).value);
+                    let matrix2Value = parseInt(document.getElementById(`m2-${i}-${j}`).value);
+
+                    // Calculate the sum
+                    let sum = matrix1Value + matrix2Value;
+
+                    // Set the result value
+                    document.getElementById(`r-${i}-${j}`).value = sum;
+                }
+            }
+        }
     </script>
 </body>
 </html>
